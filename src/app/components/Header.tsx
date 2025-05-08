@@ -1,10 +1,18 @@
 'use client';
 
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useTranslation } from 'next-i18next';
+import Link from 'next/link';
 
 export default function Header() {
+  const { i18n } = useTranslation(); // use i18n from next-i18next
   const router = useRouter();
+
+  const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedLang = e.target.value;
+    i18n.changeLanguage(selectedLang); // Change language dynamically
+    router.push('/'); // Optional: Redirect to home after language change
+  };
 
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-100">
@@ -49,39 +57,16 @@ export default function Header() {
             </Link>
           </div>
 
+          {/* Language Selector */}
           <select
-            onChange={(e) => router.push(`/${e.target.value}`)}
+            onChange={handleLanguageChange}
+            value={i18n.language}
             className="ml-4 border border-slate-200 rounded-lg py-1.5 px-3 text-slate-600 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
           >
             <option value="en">🇺🇸 English</option>
-            <option value="es">🇪🇸 Español</option>
             <option value="fr">🇫🇷 Français</option>
-            <option value="ar">🇦🇪 عربي</option>
-            <option value="zh">🇨🇳 中文 (Chinese)</option>
-            <option value="hi">🇮🇳 हिंदी (Hindi)</option>
-            <option value="bn">🇧🇩 বাংলা (Bengali)</option>
-            <option value="pt">🇵🇹 Português</option>
-            <option value="ru">🇷🇺 Русский (Russian)</option>
-            <option value="ja">🇯🇵 日本語 (Japanese)</option>
-            <option value="de">🇩🇪 Deutsch (German)</option>
-            <option value="it">🇮🇹 Italiano</option>
-            <option value="tr">🇹🇷 Türkçe</option>
-            <option value="ko">🇰🇷 한국어 (Korean)</option>
-            <option value="vi">🇻🇳 Tiếng Việt</option>
-            <option value="id">🇮🇩 Bahasa Indonesia</option>
-            <option value="fa">🇮🇷 فارسی (Farsi)</option>
-            <option value="ur">🇵🇰 اردو (Urdu)</option>
-            <option value="ms">🇲🇾 Bahasa Melayu</option>
-            <option value="th">🇹🇭 ภาษาไทย</option>
-            <option value="sw">🇰🇪 Kiswahili</option>
-            <option value="pl">🇵🇱 Polski</option>
-            <option value="uk">🇺🇦 Українська</option>
-            <option value="ro">🇷🇴 Română</option>
-            <option value="nl">🇳🇱 Nederlands</option>
+            {/* Add more languages here */}
           </select>
-
-
-
         </nav>
       </div>
     </header>

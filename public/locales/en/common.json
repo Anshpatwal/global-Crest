@@ -1,5 +1,10 @@
-
 {
-    "welcome": "Welcome to GlobalCrest Exports",
-    "viewProducts": "Explore Our Products"
-}
+    "home": "Home",
+    "about": "About",
+    "products": "Products",
+    "contact": "Contact Us",
+    "certificates": "Certificates",
+    "english": "English",
+    "french": "French"
+  }
+  
