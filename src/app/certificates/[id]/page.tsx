@@ -1,20 +1,22 @@
 // /app/certificates/[id]/page.tsx
+
 import { certificates } from '@/app/lib';
 import Image from 'next/image';
 import Link from 'next/link';
 
-type Props = {
-  params: {
-    id: string;
-  };
+type CertificateDetailProps = {
+  params: { id: string };
 };
 
 export async function generateStaticParams() {
-  return certificates.map(cert => ({ id: cert.id }));
+  // Return the params for static generation of all certificate pages
+  return certificates.map((cert) => ({
+    id: cert.id,
+  }));
 }
 
-export default function CertificateDetail({ params }: Props) {
-  const cert = certificates.find(c => c.id === params.id);
+export default function CertificateDetail({ params }: CertificateDetailProps) {
+  const cert = certificates.find((c) => c.id === params.id);
 
   if (!cert) {
     return <p className="p-6 text-center text-red-500">Certificate not found.</p>;
@@ -22,7 +24,9 @@ export default function CertificateDetail({ params }: Props) {
 
   return (
     <div className="bg-gradient-to-b from-slate-50 to-indigo-50 min-h-screen p-6">
-      <Link href="/certificates" className="inline-block mb-6 text-teal-500 hover:underline">← Back to Certifications</Link>
+      <Link href="/certificates" className="inline-block mb-6 text-teal-500 hover:underline">
+        ← Back to Certifications
+      </Link>
       <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden">
         <Image
           src={cert.image}
