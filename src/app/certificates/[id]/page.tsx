@@ -1,32 +1,29 @@
-// /app/certificates/[id]/page.tsx
-
-import { certificates } from '@/app/lib';
+'use client'
 import Image from 'next/image';
 import Link from 'next/link';
+import { certificates } from '@/app/lib';
 
+// This type is for the props you pass to the page component
 type CertificateDetailProps = {
   params: { id: string };
 };
 
+// Static generation for dynamic routes
 export async function generateStaticParams() {
-  // Return the params for static generation of all certificate pages
-  return certificates.map((cert) => ({
+  return certificates.map(cert => ({
     id: cert.id,
   }));
 }
 
 export default function CertificateDetail({ params }: CertificateDetailProps) {
-  const cert = certificates.find((c) => c.id === params.id);
-
+  const cert = certificates.find(c => c.id === params.id);
   if (!cert) {
     return <p className="p-6 text-center text-red-500">Certificate not found.</p>;
   }
 
   return (
     <div className="bg-gradient-to-b from-slate-50 to-indigo-50 min-h-screen p-6">
-      <Link href="/certificates" className="inline-block mb-6 text-teal-500 hover:underline">
-        ← Back to Certifications
-      </Link>
+      <Link href="/certificates" className="inline-block mb-6 text-teal-500 hover:underline">← Back to Certifications</Link>
       <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden">
         <Image
           src={cert.image}
