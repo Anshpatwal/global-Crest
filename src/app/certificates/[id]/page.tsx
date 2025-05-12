@@ -3,11 +3,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { certificates } from '@/app/lib';
 
-type CertificateDetailProps = {
-  params: { id: string };
-};
 
-export default function CertificateDetail({ params }: CertificateDetailProps) {
+
+export default function CertificateDetail({ params }: { params: { id: string } }) {
   const cert = certificates.find(c => c.id === params.id);
   if (!cert) {
     return <p className="p-6 text-center text-red-500">Certificate not found.</p>;
