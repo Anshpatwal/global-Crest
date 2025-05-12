@@ -1,12 +1,21 @@
-
+// /app/certificates/[id]/page.tsx
+import { certificates } from '@/app/lib';
 import Image from 'next/image';
 import Link from 'next/link';
-import { certificates } from '@/app/lib';
 
+type Props = {
+  params: {
+    id: string;
+  };
+};
 
+export async function generateStaticParams() {
+  return certificates.map(cert => ({ id: cert.id }));
+}
 
-export default function CertificateDetail({ params }: { params: { id: string } }) {
+export default function CertificateDetail({ params }: Props) {
   const cert = certificates.find(c => c.id === params.id);
+
   if (!cert) {
     return <p className="p-6 text-center text-red-500">Certificate not found.</p>;
   }
