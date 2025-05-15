@@ -1,4 +1,4 @@
-'use client';
+// app/products/[id]/page.tsx
 import Image from 'next/image';
 import Link from 'next/link';
 import { products } from '@/app/lib';
@@ -6,25 +6,22 @@ import Header from '@/app/components/Header';
 import Footer from '@/app/components/Footer';
 import { notFound } from 'next/navigation';
 
-type Params = {
+type Props = {
   params: {
     id: string;
   };
 };
 
-export default function ProductDetail({ params }: Params) {
+export default function ProductDetailPage({ params }: Props) {
   const item = products.find((p) => p.id === params.id);
 
-  if (!item) return notFound(); // Optional: better UX than plain text
+  if (!item) return notFound();
 
   return (
     <>
       <Header />
       <div className="min-h-screen bg-gradient-to-b from-slate-50 to-indigo-50 p-6">
-        <Link
-          href="/products"
-          className="inline-block mb-6 text-teal-500 hover:underline"
-        >
+        <Link href="/products" className="inline-block mb-6 text-teal-500 hover:underline">
           ← Back to Products
         </Link>
 
