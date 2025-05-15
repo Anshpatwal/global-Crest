@@ -1,11 +1,23 @@
 'use client'
 import Header from './components/Header';
 import Image from 'next/image';
+import { ChangeEvent, FormEvent } from 'react';
 import { useState } from 'react';
 import Footer from './components/Footer';
 
+type InquiryForm = {
+  product: string;
+  quantity: string;
+  company: string;
+  email: string;
+  message: string;
+};
+
+
 export default function Home() {
-  const [inquiry, setInquiry] = useState({
+
+
+  const [inquiry, setInquiry] = useState<InquiryForm>({
     product: '',
     quantity: '',
     company: '',
@@ -13,17 +25,17 @@ export default function Home() {
     message: ''
   });
 
-  const handleChange = (e) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setInquiry({ ...inquiry, [name]: value });
+    setInquiry((prev) => ({ ...prev, [name]: value }));
   };
-  const [activeFaq, setActiveFaq] = useState(null);
 
-  const toggleFaq = (id) => {
+  const [activeFaq, setActiveFaq] = useState<number | null>(null);
+
+  const toggleFaq = (id: number) => {
     setActiveFaq(activeFaq === id ? null : id);
   };
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
     try {
