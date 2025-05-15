@@ -1,3 +1,4 @@
+// ← NO 'use client' here!
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -5,9 +6,11 @@ import { products } from '@/app/lib';
 import Header from '@/app/components/Header';
 import Footer from '@/app/components/Footer';
 
-export default async function ProductDetailPage(
-  { params }: { params: { id: string } } // ← inline the shape here
-) {
+export default function Page({
+  params,
+}: {
+  params: { id: string };
+}) {
   const product = products.find((p) => p.id === params.id);
   if (!product) return notFound();
 
@@ -15,7 +18,10 @@ export default async function ProductDetailPage(
     <>
       <Header />
       <div className="min-h-screen bg-gradient-to-b from-slate-50 to-indigo-50 p-6">
-        <Link href="/products" className="inline-block mb-6 text-teal-500 hover:underline">
+        <Link
+          href="/products"
+          className="inline-block mb-6 text-teal-500 hover:underline"
+        >
           ← Back to Products
         </Link>
 
@@ -28,7 +34,9 @@ export default async function ProductDetailPage(
             className="object-cover w-full h-96"
           />
           <div className="p-8 space-y-4">
-            <h1 className="text-3xl font-bold text-slate-900">{product.name}</h1>
+            <h1 className="text-3xl font-bold text-slate-900">
+              {product.name}
+            </h1>
             <p className="text-slate-600">{product.description}</p>
             <div className="pt-4 border-t border-gray-200">
               <h4 className="text-xl font-semibold text-slate-900 mb-2">
