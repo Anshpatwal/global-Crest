@@ -1,20 +1,32 @@
-// app/contact/page.jsx
+// app/contact/page.tsx
 'use client'
-import { useState } from 'react'
+
+import { useState, ChangeEvent, FormEvent } from 'react'
 import Header from '@/app/components/Header'
 import Footer from '@/app/components/Footer'
 import Image from 'next/image'
 
+type FormData = {
+  name: string
+  email: string
+  subject: string
+  message: string
+}
+
 export default function ContactPage() {
-  const [formData, setFormData] = useState({
-    name: '', email: '', subject: '', message: ''
+  const [formData, setFormData] = useState<FormData>({
+    name: '',
+    email: '',
+    subject: '',
+    message: '',
   })
-  const handleChange = (e) => {
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
     try {
       const res = await fetch('/api/contact', {
         method: 'POST',
@@ -22,32 +34,28 @@ export default function ContactPage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
-      });
+      })
 
       if (res.ok) {
-        alert('Inquiry sent successfully!');
-        setFormData({ name: '', email: '', subject: '', message: '' });
-        console.log(formData) 
+        alert('Inquiry sent successfully!')
+        setFormData({ name: '', email: '', subject: '', message: '' })
+        console.log(formData)
       } else {
-        alert('Failed to send inquiry');
+        alert('Failed to send inquiry')
       }
     } catch (err) {
-      console.error('Error:', err);
-      alert('An error occurred. Please try again later.');
+      console.error('Error:', err)
+      alert('An error occurred. Please try again later.')
     }
-  };
-
+  }
 
   return (
     <>
       <Header />
-
       <main className="bg-gradient-to-b from-slate-50 to-indigo-50">
-        {/* Hero */}
+        {/* Hero Section */}
         <section className="relative h-72 flex items-center justify-center bg-gradient-to-br from-indigo-800 to-teal-600 px-6">
-          <h1 className="text-4xl md:text-5xl font-bold text-white z-10">
-            Get in Touch
-          </h1>
+          <h1 className="text-4xl md:text-5xl font-bold text-white z-10">Get in Touch</h1>
           <div className="absolute inset-0 opacity-10">
             <Image
               src="https://images.unsplash.com/photo-1556740749-887f6717d7e4"
@@ -58,13 +66,11 @@ export default function ContactPage() {
           </div>
         </section>
 
-        {/* Content Grid */}
+        {/* Main Content */}
         <section className="max-w-7xl mx-auto px-6 py-16 grid lg:grid-cols-2 gap-12">
-          {/* Left: Contact Info */}
+          {/* Contact Info */}
           <div className="space-y-10">
-            <h2 className="text-3xl font-bold text-slate-900">
-              We’d Love to Hear From You
-            </h2>
+            <h2 className="text-3xl font-bold text-slate-900">We’d Love to Hear From You</h2>
             <p className="text-slate-600">
               Whether you have a question about exports, pricing, or anything else, our team is ready to answer all your inquiries.
             </p>
@@ -79,7 +85,9 @@ export default function ContactPage() {
                   <div className="p-3 bg-indigo-100 rounded-lg">
                     <svg
                       className="w-6 h-6 text-indigo-600"
-                      fill="none" stroke="currentColor" strokeWidth="2"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
                       viewBox="0 0 24 24"
                     >
                       <path strokeLinecap="round" strokeLinejoin="round" d={icon} />
@@ -100,16 +108,14 @@ export default function ContactPage() {
             </div>
           </div>
 
-          {/* Right: Contact Form */}
+          {/* Contact Form */}
           <form
             onSubmit={handleSubmit}
             className="bg-white p-8 rounded-2xl shadow-xl space-y-6 text-black"
           >
             <div className="grid md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Name
-                </label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Name</label>
                 <input
                   name="name"
                   value={formData.name}
@@ -120,9 +126,7 @@ export default function ContactPage() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Email
-                </label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
                 <input
                   name="email"
                   type="email"
@@ -136,9 +140,7 @@ export default function ContactPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Subject
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Subject</label>
               <input
                 name="subject"
                 value={formData.subject}
@@ -149,9 +151,7 @@ export default function ContactPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Message
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Message</label>
               <textarea
                 name="message"
                 rows={5}
@@ -172,7 +172,6 @@ export default function ContactPage() {
           </form>
         </section>
       </main>
-
       <Footer />
     </>
   )
