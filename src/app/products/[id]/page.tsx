@@ -1,4 +1,3 @@
-// ← NO 'use client' here!
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -6,11 +5,13 @@ import { products } from '@/app/lib';
 import Header from '@/app/components/Header';
 import Footer from '@/app/components/Footer';
 
-export default function Page({
-  params,
-}: {
-  params: { id: string };
-}) {
+interface ProductPageProps {
+  params: {
+    id: string;
+  };
+}
+
+export default function Page({ params }: ProductPageProps) {
   const product = products.find((p) => p.id === params.id);
   if (!product) return notFound();
 
