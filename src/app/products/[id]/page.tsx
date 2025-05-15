@@ -1,4 +1,3 @@
-// app/products/[id]/page.tsx
 import Image from 'next/image';
 import Link from 'next/link';
 import { products } from '@/app/lib';
@@ -12,7 +11,8 @@ type Props = {
   };
 };
 
-export default function ProductDetailPage({ params }: Props) {
+// ✅ MAKE IT ASYNC EVEN IF NOT USING AWAIT
+export default async function ProductDetailPage({ params }: Props) {
   const item = products.find((p) => p.id === params.id);
 
   if (!item) return notFound();
