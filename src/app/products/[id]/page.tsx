@@ -1,20 +1,14 @@
-// app/products/[id]/page.tsx
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
+import { products } from '@/app/lib';
 import Header from '@/app/components/Header';
 import Footer from '@/app/components/Footer';
-import { products } from '@/app/lib';
 
-type Params = {
-  params: {
-    id: string;
-  };
-};
-
-export default async function ProductDetailPage({ params }: Params) {
+export default async function ProductDetailPage(
+  { params }: { params: { id: string } } // ← inline the shape here
+) {
   const product = products.find((p) => p.id === params.id);
-
   if (!product) return notFound();
 
   return (
@@ -37,8 +31,12 @@ export default async function ProductDetailPage({ params }: Params) {
             <h1 className="text-3xl font-bold text-slate-900">{product.name}</h1>
             <p className="text-slate-600">{product.description}</p>
             <div className="pt-4 border-t border-gray-200">
-              <h4 className="text-xl font-semibold text-slate-900 mb-2">Specifications:</h4>
-              <pre className="whitespace-pre-wrap text-slate-700">{product.details}</pre>
+              <h4 className="text-xl font-semibold text-slate-900 mb-2">
+                Specifications:
+              </h4>
+              <pre className="whitespace-pre-wrap text-slate-700">
+                {product.details}
+              </pre>
             </div>
             <button className="mt-6 bg-gradient-to-r from-teal-500 to-indigo-500 px-6 py-3 rounded-xl text-white font-semibold hover:shadow-lg transition-all">
               Request Quote
