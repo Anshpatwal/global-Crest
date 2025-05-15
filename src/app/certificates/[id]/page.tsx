@@ -1,50 +1,74 @@
+// src/app/certificates/page.tsx
 'use client'
-import Image from 'next/image';
+
 import Link from 'next/link';
+import Image from 'next/image';
 import { certificates } from '@/app/lib';
+import Header from '@/app/components/Header';
+import Footer from '@/app/components/Footer';
 
-// This type is for the props you pass to the page component
-type CertificateDetailProps = {
-  params: { id: string };
-};
-
-// Static generation for dynamic routes
-export async function generateStaticParams() {
-  return certificates.map(cert => ({
-    id: cert.id,
-  }));
-}
-
-export default function CertificateDetail({ params }: CertificateDetailProps) {
-  const cert = certificates.find(c => c.id === params.id);
-  if (!cert) {
-    return <p className="p-6 text-center text-red-500">Certificate not found.</p>;
-  }
-
+export default function CertificatesPage() {
   return (
-    <div className="bg-gradient-to-b from-slate-50 to-indigo-50 min-h-screen p-6">
-      <Link href="/certificates" className="inline-block mb-6 text-teal-500 hover:underline">← Back to Certifications</Link>
-      <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden">
-        <Image
-          src={cert.image}
-          alt={cert.title}
-          width={800}
-          height={500}
-          className="object-cover w-full h-64"
-        />
-        <div className="p-8 space-y-4">
-          <h1 className="text-3xl font-bold text-slate-900">{cert.title}</h1>
-          <p className="text-slate-600">Issued by: <strong>{cert.issuer}</strong></p>
-          <p className="text-slate-600">Date of Issue: <strong>{cert.date}</strong></p>
-          <div className="pt-4 border-t border-gray-200">
-            <h4 className="text-xl font-semibold text-slate-900 mb-2">Description:</h4>
-            <p className="text-slate-700 whitespace-pre-wrap">{cert.description}</p>
+    <>
+      <Header />
+      <main className="bg-gradient-to-b from-slate-50 to-indigo-50">
+        {/* Hero Section */}
+        <section className="relative h-64 px-6 bg-gradient-to-br from-indigo-800 to-teal-600 flex items-center justify-center">
+          <div className="max-w-7xl w-full mx-auto">
+            <h1 className="text-4xl md:text-5xl font-bold text-white">
+              Our Certifications
+            </h1>
           </div>
-          <button className="mt-6 bg-gradient-to-r from-teal-500 to-indigo-500 px-6 py-3 rounded-xl text-white font-semibold hover:shadow-lg transition-all">
-            Download Certificate
-          </button>
-        </div>
-      </div>
-    </div>
+        </section>
+
+        {/* Certificates Grid */}
+        <section className="px-6 py-12">
+          <div className="max-w-7xl mx-auto grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {certificates.map(cert => (
+              <div key={cert.id} className="bg-white rounded-xl shadow-lg overflow-hidden">
+                <Image
+                  src={cert.image}
+                  alt={cert.title}
+                  width={600}
+                  height={400}
+                  className="object-cover h-48 w-full"
+                />
+                <div className="p-6 space-y-2">
+                  <h2 className="text-xl font-bold text-slate-900">{cert.title}</h2>
+                  <p className="text-slate-600 text-sm">Issued by {cert.issuer}</p>
+                  <p className="text-slate-600 text-sm">Date: {cert.date}</p>
+                  <p className="text-slate-700 mt-4">{cert.description}</p>
+                  <Link
+                    href={`/certificates/${cert.id}`}
+                    className="inline-block mt-4 text-teal-500 font-semibold hover:underline"
+                  >
+                    View Certificate Details →
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Call to Action */}
+        <section className="px-6 py-16 text-center bg-gradient-to-br from-teal-500 to-indigo-600 text-white">
+          <div className="max-w-7xl mx-auto">
+            <h3 className="text-2xl md:text-3xl font-bold mb-4">
+              Need Specific Certification Copies?
+            </h3>
+            <p className="mb-6 text-lg">
+              Contact us and we’ll provide authenticated copies of any certificate you require.
+            </p>
+            <Link
+              href="/contact"
+              className="inline-block bg-white text-indigo-700 px-8 py-3 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all"
+            >
+              Get in Touch
+            </Link>
+          </div>
+        </section>
+      </main>
+      <Footer />
+    </>
   );
 }
