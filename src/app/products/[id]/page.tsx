@@ -5,6 +5,13 @@ import { products } from '@/app/lib';
 import Header from '@/app/components/Header';
 import Footer from '@/app/components/Footer';
 
+// Add this type override if global types can't be modified
+declare module 'next' {
+  interface PageProps {
+    params: Record<string, string>;
+  }
+}
+
 interface ProductPageProps {
   params: {
     id: string;
